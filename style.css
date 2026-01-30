@@ -424,11 +424,7 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   animation: floating 3s ease-in-out infinite;
 }
-.project-card:last-child {
-  grid-column: 1 / -1;
-  max-width: 350px;
-  justify-self: center;
-}
+
 
 
 .project-card:nth-child(2) {
