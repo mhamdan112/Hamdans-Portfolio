@@ -76,7 +76,7 @@
   to apply my skills to creative and practical projects that make a meaningful impact.
 </p>
 
-      <a href="Resume__hamdan.pdf" class="btn primary">Download Resume</a>
+      <a href="final_resume.pdf" class="btn primary">Download Resume</a>
     </div>
     <div class="about-image reveal delay-3">
       <img src="photo.png" alt="Profile Picture">
@@ -362,21 +362,42 @@
   </div>
 </footer>
 <script>
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("active");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.15 }
-  );
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("active");
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.15 }
+);
 
-  document.querySelectorAll(".reveal, .reveal-left, .reveal-right")
-    .forEach(el => observer.observe(el));
+document
+  .querySelectorAll(".reveal, .reveal-left, .reveal-right")
+  .forEach(el => observer.observe(el));
+
+
+/* Magic Bento mouse effect */
+document.querySelectorAll(".project-card, .skill-card").forEach(card => {
+
+  card.addEventListener("mousemove", (e) => {
+
+    const rect = e.currentTarget.getBoundingClientRect();
+
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    e.currentTarget.style.setProperty("--x", x + "px");
+    e.currentTarget.style.setProperty("--y", y + "px");
+
+  });
+
+});
+
+
+
 </script>
-
 </body>
 </html>
