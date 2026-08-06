@@ -25,11 +25,12 @@ body {
   overflow-x: hidden;
   font-family: var(--font-body);
   position: relative;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: contain;
 }
 
 body.menu-open {
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 body.menu-open::before {
@@ -179,6 +180,8 @@ section[id], .hero {
   cursor: pointer;
   padding: 8px;
   z-index: 1001;
+  transform: translateZ(0); /* own layer — isolated from header repaints */
+  will-change: transform;
 }
 
 .menu-toggle span {
@@ -187,6 +190,8 @@ section[id], .hero {
   height: 2px;
   background: var(--gold);
   border-radius: 2px;
+  transform: translateZ(0);
+  backface-visibility: hidden;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
@@ -257,6 +262,7 @@ section[id], .hero {
 /* Hero Section */
 .hero {
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2336,9 +2342,14 @@ html {
     min-height: 68px;
     padding: 12px 14px;
     width: 100%;
-    transform: translateZ(0);
-    will-change: transform;
-    backface-visibility: hidden;
+    transform: none;
+    will-change: auto;
+    backface-visibility: visible;
+  }
+
+  .menu-toggle {
+    transform: none;
+    will-change: auto;
   }
 
   .name {
@@ -2430,3 +2441,276 @@ html {
   position: fixed;
   z-index: 1000;
 }
+
+/* ============================================================
+   MODERN ENHANCEMENTS
+   Scroll progress · particle field · marquee · scramble
+   magnetic buttons · orbit rings — all theme-matched
+   ============================================================ */
+
+/* ---- Back to Top (replaces the old top progress bar) ---- */
+.back-to-top {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  width: 46px;
+  height: 46px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), #ff7b00);
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(245, 185, 66, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(18px) scale(0.9);
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, visibility 0s linear 0.35s;
+  z-index: 1500;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  will-change: transform, opacity;
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, visibility 0s;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .back-to-top:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(245, 185, 66, 0.5);
+  }
+}
+
+.back-to-top svg {
+  display: block;
+}
+
+/* ---- Full-page Particle Field ---- */
+#bg-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---- Tech Marquee ---- */
+.marquee {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  padding: 20px 0;
+  border-top: 1px solid rgba(245, 185, 66, 0.12);
+  border-bottom: 1px solid rgba(245, 185, 66, 0.12);
+  background: linear-gradient(90deg, rgba(245, 185, 66, 0.05), transparent 30%, transparent 70%, rgba(245, 185, 66, 0.05));
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 30s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-track span {
+  font-family: var(--font-display);
+  font-size: 15px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(245, 185, 66, 0.85);
+  white-space: nowrap;
+  padding-right: 60px;
+  text-shadow: 0 0 20px rgba(245, 185, 66, 0.25);
+}
+
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ---- Scramble Title Chars ---- */
+.section-title .char,
+.contact-title .char {
+  display: inline-block;
+}
+
+/* ---- Magnetic Buttons ---- */
+.btn[data-magnetic] {
+  transform: translate(var(--mx, 0px), var(--my, 0px));
+  transition: background-color 0.3s ease, color 0.3s ease,
+              transform 0.12s linear, box-shadow 0.25s ease;
+  will-change: transform;
+}
+
+.btn[data-magnetic].magnetic-return {
+  transition: background-color 0.3s ease, color 0.3s ease,
+              transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+}
+
+.btn[data-magnetic]:hover {
+  transform: translate(var(--mx, 0px), calc(var(--my, 0px) - 3px));
+}
+
+.btn[data-magnetic]:active {
+  transform: translate(var(--mx, 0px), calc(var(--my, 0px) - 1px));
+}
+
+/* ---- Orbit Rings around Profile ---- */
+.about-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.ring-a {
+  width: 480px;
+  height: 480px;
+  border: 2px dashed rgba(245, 185, 66, 0.35);
+  animation: ringSpin 16s linear infinite;
+}
+
+.ring-b {
+  width: 420px;
+  height: 420px;
+  border: 1px solid rgba(245, 185, 66, 0.18);
+  animation: ringSpin 24s linear infinite reverse;
+}
+
+.about-ring::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 14px rgba(245, 185, 66, 0.9);
+}
+
+.ring-b::before {
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  top: 12%;
+  background: #ff7b00;
+  box-shadow: 0 0 10px rgba(255, 123, 0, 0.9);
+}
+
+@keyframes ringSpin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .ring-a { width: 340px; height: 340px; }
+  .ring-b { width: 300px; height: 300px; }
+}
+
+@media (max-width: 600px) {
+  .ring-a { width: 280px; height: 280px; }
+  .ring-b { width: 240px; height: 240px; }
+}
+
+@media (max-width: 480px) {
+  .ring-a { width: 240px; height: 240px; }
+  .ring-b { width: 200px; height: 200px; }
+}
+
+/* ---- Reduced Motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  #bg-canvas {
+    display: none;
+  }
+
+  .marquee-track,
+  .about-ring {
+    animation: none;
+  }
+
+  .back-to-top {
+    transition: none;
+  }
+}
+
+/* ============================================================
+   MOBILE PERFORMANCE & SMOOTHNESS
+   ============================================================ */
+@media (max-width: 768px) {
+  /* The full-page particle field is GPU-heavy on phones — the hero
+     already ships its own 3D scene, so skip it entirely. */
+  #bg-canvas {
+    display: none;
+  }
+
+  /* No frosted glass on phones: backdrop-filter re-samples the scene
+     behind the header on every scroll frame and is the #1 cause of the
+     hamburger/back-to-top "shake". The site is black anyway, so a
+     near-opaque header looks identical. */
+  .Header {
+    background-color: rgba(8, 8, 8, 0.92);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    /* zero animated repaints on scroll — the scrolled swap is invisible
+       against the near-opaque bg, so no transition at all */
+    transition: none;
+  }
+
+  .back-to-top,
+  .back-to-top.visible {
+    transform: none;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  /* Stop the endless floating animations on touch — the biggest
+     win for buttery scrolling on phones. */
+  .project-card,
+  .info-item,
+  .tag-item,
+  .card-icon {
+    animation: none !important;
+  }
+
+  .orb {
+    animation: none;
+    filter: blur(50px);
+    opacity: 0.22;
+  }
+
+  .btn,
+  .submit-btn,
+  .menu-toggle,
+  .item li a,
+  .info-btn,
+  .back-to-top {
+    touch-action: manipulation;
+  }
+}
+
+@media (max-width: 480px) {
+  .back-to-top {
+    right: 14px;
+    bottom: 14px;
+    width: 42px;
+    height: 42px;
+  }
+}
+

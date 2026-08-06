@@ -21,6 +21,9 @@
     <div class="orb orb-3"></div>
   </div>
 
+  <!-- Full-page Particle Field -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
   <!-- Header -->
   <header class="Header">
     <div class="name">HAMDAN<span class="name-dot">.</span></div>
@@ -53,8 +56,8 @@
       <p class="subtitle"><span class="typed-text"></span><span class="typed-cursor">|</span></p>
 
       <div class="buttons">
-        <a href="#contact" class="btn primary">Hire Me</a>
-        <a href="#projects" class="btn outline">My Works</a>
+        <a href="#contact" class="btn primary" data-magnetic>Hire Me</a>
+        <a href="#projects" class="btn outline" data-magnetic>My Works</a>
       </div>
     </div>
 
@@ -74,6 +77,14 @@
       </div>
     </div>
   </section>
+
+  <!-- Tech Marquee -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>HTML5 ✦ CSS3 ✦ JavaScript ✦ C++ ✦ Python ✦ Git ✦ GitHub ✦ VS Code ✦ SFML ✦ LangChain ✦ React</span>
+      <span>HTML5 ✦ CSS3 ✦ JavaScript ✦ C++ ✦ Python ✦ Git ✦ GitHub ✦ VS Code ✦ SFML ✦ LangChain ✦ React</span>
+    </div>
+  </div>
 
   <!-- Orange Separator Line -->
   <div class="separator"><span class="separator-glow"></span></div>
@@ -113,10 +124,12 @@
           user experience, and modern development practices. I love learning new tools and frameworks, and I'm always eager
           to apply my skills to creative and practical projects that make a meaningful impact.
         </p>
-        <a href="final_resume.pdf" class="btn primary">Download Resume</a>
+        <a href="final_resume.pdf" class="btn primary" data-magnetic>Download Resume</a>
       </div>
       <div class="about-image reveal delay-3">
         <div class="image-frame">
+          <span class="about-ring ring-a"></span>
+          <span class="about-ring ring-b"></span>
           <img src="photo.png" alt="Profile Picture">
         </div>
       </div>
@@ -140,7 +153,7 @@
   </section>
 
   <section class="timeline-section">
-    <h2 class="section-title reveal">EDUCATION</h2>
+    <h2 class="section-title reveal" data-scramble>EDUCATION</h2>
 
     <div class="timeline">
       <div class="timeline-item reveal">
@@ -189,7 +202,7 @@
   <div class="separator"><span class="separator-glow"></span></div>
 
   <section class="skills-section" id="skills">
-    <h2 class="section-title reveal">SKILLS</h2>
+    <h2 class="section-title reveal" data-scramble>SKILLS</h2>
 
     <div class="skills-container">
       <div class="skill-item reveal delay-1">
@@ -227,7 +240,7 @@
   </section>
 
   <section class="projects-section" id="projects">
-    <h2 class="section-title reveal">PROJECTS</h2>
+    <h2 class="section-title reveal" data-scramble>PROJECTS</h2>
 
     <div class="projects-grid">
       <div class="project-card reveal delay-1">
@@ -321,7 +334,7 @@
   </section>
 
   <section class="services-section" id="services">
-    <h2 class="section-title reveal">SERVICES</h2>
+    <h2 class="section-title reveal" data-scramble>SERVICES</h2>
 
     <div class="skills-grid services-grid">
       <div class="skill-card reveal delay-1">
@@ -354,7 +367,7 @@
 
   <section class="contact-section" id="contact">
     <div class="contact-container">
-      <h2 class="contact-title reveal">GET IN TOUCH</h2>
+      <h2 class="contact-title reveal" data-scramble>GET IN TOUCH</h2>
       <p class="contact-subtitle reveal delay-1">Have a project in mind or want to collaborate? I'd love to hear from you. Send me a message and I'll respond as soon as possible.</p>
 
       <form action="https://api.web3forms.com/submit" method="POST" class="contact-form">
@@ -427,6 +440,12 @@
       <p>&copy; 2026 <span>HAMDAN</span>. All Rights Reserved. | Designed & Developed by HAMDAN</p>
     </div>
   </footer>
+
+  <button class="back-to-top" aria-label="Back to top" title="Back to top">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="script.js"></script>
